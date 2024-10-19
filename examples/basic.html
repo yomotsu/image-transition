@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>=^.^=</title>
+<style>
+body {background: url( "./img/bg.png" );}
+canvas {display: block;}
+</style>
+</head>
+<body>
+<div style="position: fixed; inset: 0 auto auto 0">
+	<a href="https://github.com/yomotsu/image-transition">GitHub repo</a><br>
+	<button type="button">enter</button><br>
+	<button type="button">stop</button><br>
+	<button type="button">leave</button><br>
+	<button type="button">reset</button><br>
+	<button type="button">to small</button><br>
+</div>
+
+<canvas width="1000" height="500"></canvas>
+<canvas width="1000" height="500"></canvas>
+<canvas width="1000" height="500"></canvas>
+
+<script type="module">
+import ImageTransition from '../dist/image-transition.module.js';
+
+const [
+	img1,
+	img1s,
+	img2,
+	disp1,
+	disp2,
+	disp3,
+] = await Promise.all( [
+	ImageTransition.loadImage( './img/img_001.jpg' ),
+	ImageTransition.loadImage( './img/img_001_s.jpg' ),
+	ImageTransition.loadImage( './img/img_002.jpg' ),
+	ImageTransition.loadImage( './img/disp_001.jpg' ),
+	ImageTransition.loadImage( './img/disp_002.jpg' ),
+	ImageTransition.loadImage( './img/disp_003.png' ),
+] );
+
+const imageTransition1 = new ImageTransition(
+	{
+		canvas: document.querySelectorAll( 'canvas' )[ 0 ],
+		intensity: 0.5,
+		duration: 3000,
+		sourceFrom: null,
+		sourceTo: ImageTransition.convertPowerOfTwo( img1 ),
+		displacementSource: ImageTransition.convertPowerOfTwo( disp1 ),
+	}
+);
+
+const imageTransition2 = new ImageTransition(
+	{
+		canvas: document.querySelectorAll( 'canvas' )[ 1 ],
+		intensity: 0.2,
+		direction: Math.PI,
+		duration: 1000,
+		sourceFrom: null,
+		sourceTo: ImageTransition.convertPowerOfTwo( img2 ),
+		displacementSource: ImageTransition.convertPowerOfTwo( disp2 ),
+	}
+);
+
+const imageTransition3 = new ImageTransition(
+	{
+		canvas: document.querySelectorAll( 'canvas' )[ 2 ],
+		intensity: 0.2,
+		direction: Math.PI,
+		duration: 2000,
+		sourceFrom: ImageTransition.convertPowerOfTwo( img1 ),
+		sourceTo: ImageTransition.convertPowerOfTwo( img2 ),
+		displacementSource: ImageTransition.convertPowerOfTwo( disp3 ),
+	}
+);
+
+imageTransition1.enter();
+imageTransition2.enter();
+imageTransition3.enter();
+
+const [
+	buttonEnter,
+	buttonStop,
+	buttonLeave,
+	buttonReset,
+	buttonToSmall,
+] = [ ...document.querySelectorAll( 'button' ) ];
+
+buttonEnter.addEventListener( 'click', () => {
+
+	imageTransition1.enter();
+	imageTransition2.enter();
+	imageTransition3.enter();
+
+} );
+
+buttonStop.addEventListener( 'click', () => {
+
+	imageTransition1.stop();
+	imageTransition2.stop();
+	imageTransition3.stop();
+
+} );
+
+buttonLeave.addEventListener( 'click', () => {
+
+	imageTransition1.leave();
+	imageTransition2.leave();
+	imageTransition3.leave();
+
+} );
+
+buttonReset.addEventListener( 'click', () => {
+
+	imageTransition1.reset();
+	imageTransition2.reset();
+	imageTransition3.reset();
+
+} );
+
+buttonToSmall.addEventListener( 'click', () => {
+
+	imageTransition1.setToImage( ImageTransition.convertPowerOfTwo( img1s ) );
+	imageTransition1.setSize( img1s.naturalWidth, img1s.naturalHeight );
+
+} );
+
+</script>
+
+</body>
+</html>

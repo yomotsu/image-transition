@@ -1,0 +1,46 @@
+import type { TextureSource } from './types';
+import { EventDispatcher } from './EventDispatcher';
+type Params = {
+    canvas: HTMLCanvasElement;
+    intensity?: number;
+    direction?: number;
+    duration?: number;
+    sourceFrom?: TextureSource;
+    sourceTo?: TextureSource;
+    displacementSource: TextureSource;
+};
+export declare class ImageTransition extends EventDispatcher {
+    static loadImage(imageSource: string): Promise<HTMLImageElement>;
+    static convertPowerOfTwo(image: HTMLImageElement | HTMLCanvasElement): TextureSource;
+    duration: number;
+    private _progress;
+    private _canvas;
+    private _textureFrom;
+    private _textureTo;
+    private _textureDisplacement;
+    private _isEntering;
+    private _isLeaving;
+    private _hasUpdated;
+    private _destroyed;
+    private _gl;
+    private _vertexShader;
+    private _fragmentShader;
+    private _program;
+    private _vertexBuffer;
+    private _uvBuffer;
+    private _uniformLocations;
+    constructor({ canvas, intensity, duration, direction, sourceFrom, sourceTo, displacementSource, }: Params);
+    enter(): void;
+    leave(): void;
+    stop(): void;
+    reset(): void;
+    setSize(w: number, h: number): void;
+    setFromImage(sourceFrom: TextureSource): void;
+    setToImage(sourceTo: TextureSource): void;
+    render(): void;
+    destroy(removeElement?: boolean): void;
+    private _updateTexture;
+    private _updateAspect;
+    private _onUpdate;
+}
+export {};

@@ -1,0 +1,23 @@
+{
+  "name": "image-transition",
+  "version": "0.0.1",
+  "author": "Yomotsu",
+  "license": "MIT",
+  "repository": "yomotsu/image-transition",
+  "jsnext:main": "dist/image-transition.module.js",
+  "module": "dist/image-transition.module.js",
+  "main": "dist/image-transition.js",
+  "types": "dist/index.d.ts",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.1",
+    "rollup": "^4.24.0",
+    "terser": "^5.36.0",
+    "tslib": "^2.8.0",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "dev": "rollup --config --watch",
+    "build": "rollup --config && terser 'dist/image-transition.js' -o 'dist/image-transition.min.js' --comments '/^!/'"
+  },
+  "keywords": []
+}
